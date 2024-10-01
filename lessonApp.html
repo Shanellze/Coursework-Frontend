@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Math</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="App">
+
+        <header>
+            <h1>{{ sitename }}</h1>
+            <button v-on:click='showCheckout'> {{ cartItemCount }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+        </header>
+        <div v-if='showProduct'>
+            <!-- the code for the product page -->    
+            <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="product.image">
+            <h2 v-text="product.title"></h2>
+            <p v-text="product.description"></p>
+            <p>Price: £<span v-text="product.price"></span></p>
+            <button v-on:click="addToCart" v-if="canAddToCart">Add to Cart</button>
+            <button disabled='disabled' v-else>Add to cart</button>
+        </div>
+        <div v-else>
+            <!-- the code for the checkout page -->
+             <h2>Cart</h2>
+             <p v-for="id in cart" :key="id">{{ id }}</p>
+             <!-- <p>Total: <span v-text="total"></span></p>   -->
+        </div>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#App',
+            data: { sitename:'Fast fashion store', showProduct: true, product:{id: '001', title: 'Pink dress', description: 'A pink dress with a cute bow.', price: '100', image: 'womensDress.png', availableInventory:5}, cart: []},
+            methods: {
+                addToCart: function () {
+                    this.cart.push(this.product.id);
+                    alert("Added " + this.product.id + " to your cart");
+                },
+                showCheckout() {
+                    this.showProduct = this.showProduct ? false : true;
+                }
+            },
+            computed: {
+                cartItemCount: function () {
+                    return this.cart.length;
+                },
+                canAddToCart: function() {
+                    return this.product.availableInventory > this.cartItemCount;
+                },
+                // total: function() {
+                //     for (i=0; i<this.cartItemCount; i++) {
+                //         total += this.product[id].price;
+                //     }
+                //     return total;
+                // }
+
+            }
+        })
+    </script>
+
+</body>
+
+</html>

@@ -29,14 +29,23 @@
             <!-- the code for the checkout page -->
              <h2>Cart</h2>
              <p v-for="id in cart" :key="id">{{ id }}</p>
-             <!-- <p>Total: <span v-text="total"></span></p>   -->
+             <p>Total: £<span v-text="total"></span></p>  
         </div>
     </div>
 
     <script>
         let app = new Vue({
             el: '#App',
-            data: { sitename:'Fast fashion store', showProduct: true, product:{id: '001', title: 'Pink dress', description: 'A pink dress with a cute bow.', price: '100', image: 'womensDress.png', availableInventory:5}, cart: []},
+            data: { sitename:'Fast fashion store', 
+                    showProduct: true, 
+                    product:{ 
+                        id: '001', 
+                        title: 'Pink dress', 
+                        description: 'A pink dress with a cute bow.', 
+                        price: 100, 
+                        image: 'womensDress.png', 
+                        availableInventory:5}, 
+                    cart: []},
             methods: {
                 addToCart: function () {
                     this.cart.push(this.product.id);
@@ -53,12 +62,15 @@
                 canAddToCart: function() {
                     return this.product.availableInventory > this.cartItemCount;
                 },
-                // total: function() {
-                //     for (i=0; i<this.cartItemCount; i++) {
-                //         total += this.product[id].price;
-                //     }
-                //     return total;
-                // }
+                total: function() {
+                    let totalAmount = 0;
+                    // Iterate over the cart array
+                    for (let i = 0; i < this.cart.length; i++) {
+                        // Add the product price for each item in the cart
+                        totalAmount += this.product.price;
+                    }
+                    return totalAmount;
+                }
 
             }
         })

@@ -94,17 +94,20 @@
                     }
                     return count;
                 },
+                
                 canAddToCart(lesson) {
-                    return lesson.availableInventory > this.cartItemCount(lesson.id);
+                    return lesson.availability > this.cartItemCount(lesson.id);
                 }
             },
             computed: {
                 total: function() {
                     let totalAmount = 0;
-                    // Iterate over the cart array
                     for (let i = 0; i < this.cart.length; i++) {
-                        // Add the product price for each item in the cart
-                        totalAmount += this.lesson.price;
+                        // Find the lesson that matches the ID in the cart
+                        let lesson = this.lessons.find(l => l.id === this.cart[i]);
+                        if (lesson) {
+                            totalAmount += lesson.price;
+                        }
                     }
                     return totalAmount;
                 }

@@ -15,7 +15,7 @@
 
         <header>
             <h1>{{ sitename }}</h1>
-            <button v-on:click='showCheckout'> {{ cartItemCount(1) }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+            <button v-on:click='showCheckout'> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
         </header>
         <div v-if='showProduct'>
             <!-- the code for the product page -->    

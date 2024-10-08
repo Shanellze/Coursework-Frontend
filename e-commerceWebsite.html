@@ -27,9 +27,35 @@
         </div>
         <div v-else>
             <!-- the code for the checkout page -->
-             <h2>Cart</h2>
-             <p v-for="id in cart" :key="id">{{ id }}</p>
-             <p>Total: £<span v-text="total"></span></p>  
+            <h2>Cart</h2>
+            <p v-for="id in cart" :key="id">{{ id }}</p>
+            <p>Total: £<span v-text="total"></span></p>
+
+            <h2>Enter your information</h2>
+            <p>First Name: <input v-model.trim="order.firstName"></p>
+            <p>Last Name: <input v-model.trim="order.lastName"/></p>
+            <p>Address: <input v-model.trim="order.address"/></p>
+            <p>City: <input v-model.trim="order.city"/></p>
+            <p>State:
+                <select v-model="order.state">
+                    <option disabled value="">State</option>
+                    <option>AL</option>
+                    <option>AR</option>
+                    <option>CA</option>
+                    <option>NV</option>
+                </select>
+            </p>
+            <p>Zip/Postal Code: <input v-model="order.zip"/></p>
+               
+            <h2>Order Information</h2>
+            <p>First Name: {{order.firstName}}</p>
+            <p>Last Name: {{order.lastName}}</p>
+            <p>Address: {{order.address}}</p>
+            <p>City: {{order.city}}</p>
+            <p>Zip: {{order.zip}}</p>
+            <p>State: {{order.state}}</p>
+
+            <button v-on:click="submitForm">Place Order</button>  
         </div>
     </div>
 
@@ -37,15 +63,25 @@
         let app = new Vue({
             el: '#App',
             data: { sitename:'Fast fashion store', 
-                    showProduct: true, 
+                    showProduct: true,
+                    order:{
+                        firstName: '',
+                        lastName: '',
+                        address: '',
+                        city: '',
+                        zip: '',
+                        state: ''
+                    },
                     product:{ 
                         id: '001', 
                         title: 'Pink dress', 
                         description: 'A pink dress with a cute bow.', 
                         price: 100, 
                         image: 'womensDress.png', 
-                        availableInventory:5}, 
-                    cart: []},
+                        availableInventory:5
+                    }, 
+                    cart: []
+                },
             methods: {
                 addToCart: function () {
                     this.cart.push(this.product.id);

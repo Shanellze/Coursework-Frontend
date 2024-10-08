@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    <script src="lessons.js"></script>
 </head>
 
 <body>
@@ -14,16 +15,18 @@
 
         <header>
             <h1>{{ sitename }}</h1>
-            <button v-on:click='showCheckout'> {{ cartItemCount }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+            <button v-on:click='showCheckout'> {{ cartItemCount(1) }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
         </header>
         <div v-if='showProduct'>
             <!-- the code for the product page -->    
-            <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="product.image">
-            <h2 v-text="product.title"></h2>
-            <p v-text="product.description"></p>
-            <p>Price: £<span v-text="product.price"></span></p>
-            <button v-on:click="addToCart" v-if="canAddToCart">Add to Cart</button>
-            <button disabled='disabled' v-else>Add to cart</button>
+            <div v-for="lesson in lessons">
+                <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="lesson.image">
+                <h2 v-text="lesson.subject"></h2>
+                <p v-text="lesson.location"></p>
+                <p>Price: £<span v-text="lesson.price"></span></p>
+                <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to Cart</button>
+                <button disabled='disabled' v-else>Add to cart</button>
+            </div>
         </div>
         <div v-else>
             <!-- the code for the checkout page -->
@@ -62,7 +65,7 @@
     <script>
         let app = new Vue({
             el: '#App',
-            data: { sitename:'Fast fashion store', 
+            data: { sitename:'Lessons store', 
                     showProduct: true,
                     order:{
                         firstName: '',
@@ -72,42 +75,39 @@
                         zip: '',
                         state: ''
                     },
-                    product:{ 
-                        id: '001', 
-                        title: 'Pink dress', 
-                        description: 'A pink dress with a cute bow.', 
-                        price: 100, 
-                        image: 'womensDress.png', 
-                        availableInventory:5
-                    }, 
+                    lessons:lessons, 
                     cart: []
                 },
             methods: {
-                addToCart: function () {
-                    this.cart.push(this.product.id);
-                    alert("Added " + this.product.id + " to your cart");
+                addToCart(lesson) {
+                    this.cart.push(lesson.id);
                 },
                 showCheckout() {
                     this.showProduct = this.showProduct ? false : true;
+                },
+                cartItemCount(id) {
+                    let count = 0;
+                    for(let i = 0; i < this.cart.length; i++) {
+                        if (this.cart[i] === id) {
+                            count++;
+                        }
+                    }
+                    return count;
+                },
+                canAddToCart(lesson) {
+                    return lesson.availableInventory > this.cartItemCount(lesson.id);
                 }
             },
             computed: {
-                cartItemCount: function () {
-                    return this.cart.length;
-                },
-                canAddToCart: function() {
-                    return this.product.availableInventory > this.cartItemCount;
-                },
                 total: function() {
                     let totalAmount = 0;
                     // Iterate over the cart array
                     for (let i = 0; i < this.cart.length; i++) {
                         // Add the product price for each item in the cart
-                        totalAmount += this.product.price;
+                        totalAmount += this.lesson.price;
                     }
                     return totalAmount;
                 }
-
             }
         })
     </script>

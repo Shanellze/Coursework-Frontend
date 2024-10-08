@@ -24,6 +24,7 @@
                 <h2 v-text="lesson.subject"></h2>
                 <p v-text="lesson.location"></p>
                 <p>Price: £<span v-text="lesson.price"></span></p>
+                <p>Space: <span v-text="lesson.availability"></span></p>
                 <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to Cart</button>
                 <button disabled='disabled' v-else>Add to cart</button>
             </div>

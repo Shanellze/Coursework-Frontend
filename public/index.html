@@ -4,7 +4,7 @@
 <head>
     <title>Lesson store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link rel="stylesheet" href="./css/style.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <script src="./js/lessons.js"></script>
 </head>
@@ -14,21 +14,56 @@
     <div id="App">
 
         <header>
-            <h1>{{ sitename }}</h1>
-            <button v-on:click='showCheckout'> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+            <div class="header-container">
+                <h1>{{ sitename }}</h1>
+                <button v-on:click='showCheckout'> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+            </div>
         </header>
+
         <div v-if='showProduct'>
-            <!-- the code for the product page -->    
-            <div v-for="lesson in lessons">
-                <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="lesson.image">
-                <h2 v-text="lesson.subject"></h2>
-                <p v-text="lesson.location"></p>
-                <p>Price: £<span v-text="lesson.price"></span></p>
-                <p>Space: <span v-text="lesson.availability"></span></p>
-                <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to Cart</button>
-                <button disabled='disabled' v-else>Add to cart</button>
+
+            <div class="container">
+
+                <!-- Sort container -->
+                <div class="sortContainer">
+                    <h2>Sort By</h2>
+                    <div>
+                        <label><input type="radio" v-model="sortCriteria" value="subject">Subject</label>
+                    </div>
+                    <div>
+                        <label><input type="radio" v-model="sortCriteria" value="location">Location</label>
+                    </div>
+                    <div>
+                        <label><input type="radio" v-model="sortCriteria" value="price">Price</label>
+                    </div>
+                    <div>
+                        <label><input type="radio" v-model="sortCriteria" value="availability">Availability</label>
+                    </div>
+                
+                    <br/>
+                    <div>
+                        <label><input type="radio" v-model="sortOrder" value="asc">Ascending</label>
+                    </div>
+                    <div>
+                        <label><input type="radio" v-model="sortOrder" value="desc">Descending</label>
+                    </div>
+                </div>
+                
+                <!-- Lesson container -->    
+                <div class="lessonContainer">
+                    <div v-for="lesson in lessons" class="lessonItem">
+                        <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="lesson.image">
+                        <h2 v-text="lesson.subject"></h2>
+                        <p v-text="lesson.location"></p>
+                        <p>Price: £<span v-text="lesson.price"></span></p>
+                        <p>Space: <span v-text="lesson.availability"></span></p>
+                        <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to Cart</button>
+                        <button disabled='disabled' v-else>Add to cart</button>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div v-else>
             <!-- the code for the checkout page -->
             <h2>Cart</h2>
@@ -77,7 +112,9 @@
                         state: ''
                     },
                     lessons:lessons, 
-                    cart: []
+                    cart: [],
+                    sortCriteria: 'subject', // Set default sort criteria to subject
+                    sortOrder: 'asc'         // Set default sort order to ascending
                 },
             methods: {
                 addToCart(lesson) {

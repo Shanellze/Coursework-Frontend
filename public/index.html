@@ -23,7 +23,6 @@
         <div v-if='showProduct'>
 
             <div class="container">
-
                 <!-- Sort container -->
                 <div class="sortContainer">
                     <h2>Sort By</h2>
@@ -66,35 +65,51 @@
 
         <div v-else>
             <!-- the code for the checkout page -->
+            <!-- Cart container -->
             <h2>Cart</h2>
-            <p v-for="id in cart" :key="id">{{ id }}</p>
+            <div class="cartItemContainer">
+                <div v-for="item in groupedCartItems" :key="item.lesson.id" class="cartItem">
+                    <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="item.lesson.image">
+                    <p>Subject: <span v-text="item.lesson.subject"></span></p>
+                    <p>Location: <span v-text="item.lesson.location"></span></p>
+                    <p>Price: £<span v-text="item.lesson.price"></span></p>
+                    <p>Quantity: <span v-text="item.count"></span></p>
+                  <button>Remove</button>
+                </div>
+            </div>
             <p>Total: £<span v-text="total"></span></p>
 
-            <h2>Enter your information</h2>
-            <p>First Name: <input v-model.trim="order.firstName"></p>
-            <p>Last Name: <input v-model.trim="order.lastName"/></p>
-            <p>Address: <input v-model.trim="order.address"/></p>
-            <p>City: <input v-model.trim="order.city"/></p>
-            <p>State:
-                <select v-model="order.state">
-                    <option disabled value="">State</option>
-                    <option>AL</option>
-                    <option>AR</option>
-                    <option>CA</option>
-                    <option>NV</option>
-                </select>
-            </p>
-            <p>Zip/Postal Code: <input v-model="order.zip"/></p>
-               
-            <h2>Order Information</h2>
-            <p>First Name: {{order.firstName}}</p>
-            <p>Last Name: {{order.lastName}}</p>
-            <p>Address: {{order.address}}</p>
-            <p>City: {{order.city}}</p>
-            <p>Zip: {{order.zip}}</p>
-            <p>State: {{order.state}}</p>
+            <!-- Customer container -->
+            <div class="customerContainer">
+                <h2>Enter your information</h2>
+                <p>First Name: <input v-model.trim="order.firstName"></p>
+                <p>Last Name: <input v-model.trim="order.lastName"/></p>
+                <p>Address: <input v-model.trim="order.address"/></p>
+                <p>City: <input v-model.trim="order.city"/></p>
+                <p>State:
+                    <select v-model="order.state">
+                        <option disabled value="">State</option>
+                        <option>AL</option>
+                        <option>AR</option>
+                        <option>CA</option>
+                        <option>NV</option>
+                    </select>
+                </p>
+                <p>Zip/Postal Code: <input v-model="order.zip"/></p>
+            </div>
 
-            <button v-on:click="submitForm">Place Order</button>  
+            <!-- Order container -->
+            <div class="orderContainer">
+                <h2>Order Information</h2>
+                <p>First Name: {{order.firstName}}</p>
+                <p>Last Name: {{order.lastName}}</p>
+                <p>Address: {{order.address}}</p>
+                <p>City: {{order.city}}</p>
+                <p>Zip: {{order.zip}}</p>
+                <p>State: {{order.state}}</p>
+
+                <button v-on:click="submitForm">Place Order</button>  
+            </div>
         </div>
     </div>
 
@@ -138,6 +153,29 @@
                 }
             },
             computed: {
+                groupedCartItems() {
+                    const grouped = {};
+
+                    // Group cart items by their ID
+                    this.cart.forEach(id => {
+                        if (!grouped[id]) {
+                            // Find the lesson based on the ID
+                            const lesson = this.lessons.find(lesson => lesson.id === id);
+                            if (lesson) {
+                                grouped[id] = {
+                                    lesson: lesson,
+                                    count: 1
+                                };
+                            }
+                        } else {
+                            // Increment the count for the existing lesson
+                            grouped[id].count++;
+                        }
+                    });
+
+                    // Convert the grouped object to an array
+                    return Object.values(grouped);
+                },
                 total: function() {
                     let totalAmount = 0;
                     for (let i = 0; i < this.cart.length; i++) {

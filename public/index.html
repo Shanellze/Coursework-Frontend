@@ -16,7 +16,7 @@
         <header>
             <div class="header-container">
                 <h1>{{ sitename }}</h1>
-                <button disabled='disabled' v-if="cart.length == 0">{{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+                <button disabled='disabled' v-if="cart.length == 0 && showProduct">{{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
                 <button v-on:click='showCheckout' v-else> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
             </div>
         </header>

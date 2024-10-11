@@ -75,7 +75,7 @@
                     <p>Location: <span v-text="item.lesson.location"></span></p>
                     <p>Price: £<span v-text="item.lesson.price"></span></p>
                     <p>Quantity: <span v-text="item.count"></span></p>
-                  <button>Remove</button>
+                    <button v-on:click="removeFromCart(item.lesson)">Remove</button>
                 </div>
             </div>
             <p>Total: £<span v-text="total"></span></p>
@@ -136,6 +136,13 @@
                 addToCart(lesson) {
                     lesson.availability--;
                     this.cart.push(lesson.id);
+                },
+                removeFromCart(lesson) {
+                    const index = this.cart.indexOf(lesson.id);
+                    if (index !== -1) {
+                        this.cart.splice(index, 1);
+                        lesson.availability++;
+                    }
                 },
                 showCheckout() {
                     this.showProduct = !this.showProduct;

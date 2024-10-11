@@ -85,17 +85,9 @@
                 <h2>Enter your information</h2>
                 <p>First Name: <input v-model.trim="order.firstName"></p>
                 <p>Last Name: <input v-model.trim="order.lastName"/></p>
+                <p>Phone: <input v-model.trim="order.phone"/></p>
                 <p>Address: <input v-model.trim="order.address"/></p>
                 <p>City: <input v-model.trim="order.city"/></p>
-                <p>State:
-                    <select v-model="order.state">
-                        <option disabled value="">State</option>
-                        <option>AL</option>
-                        <option>AR</option>
-                        <option>CA</option>
-                        <option>NV</option>
-                    </select>
-                </p>
                 <p>Zip/Postal Code: <input v-model="order.zip"/></p>
             </div>
 
@@ -104,11 +96,10 @@
                 <h2>Order Information</h2>
                 <p>First Name: {{order.firstName}}</p>
                 <p>Last Name: {{order.lastName}}</p>
+                <p>Phone: {{order.phone}}</p>
                 <p>Address: {{order.address}}</p>
                 <p>City: {{order.city}}</p>
                 <p>Zip: {{order.zip}}</p>
-                <p>State: {{order.state}}</p>
-
                 <button>Place Order</button>  
             </div>
         </div>
@@ -122,10 +113,10 @@
                     order:{
                         firstName: '',
                         lastName: '',
+                        phone:'',
                         address: '',
                         city: '',
-                        zip: '',
-                        state: ''
+                        zip: ''
                     },
                     lessons:lessons, 
                     cart: [],

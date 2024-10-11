@@ -51,7 +51,7 @@
                 
                 <!-- Lesson container -->    
                 <div class="lessonContainer">
-                    <div v-for="lesson in lessons" class="lessonItem">
+                    <div v-for="lesson in sortedLessons" class="lessonItem">
                         <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="lesson.image">
                         <h2 v-text="lesson.subject"></h2>
                         <p v-text="lesson.location"></p>
@@ -152,6 +152,31 @@
                 }
             },
             computed: {
+                sortedLessons() {
+                    return this.lessons.slice().sort((a, b) => {
+                        if (this.sortOrder === 'asc') {
+                            if (this.sortCriteria === "subject") { 
+                                return a.subject.localeCompare(b.subject);
+                            } else if (this.sortCriteria === "location") {
+                                return a.location.localeCompare(b.location);
+                            } else if (this.sortCriteria === "price") {
+                                return a.price - b.price;
+                            } else if (this.sortCriteria === "availability") {
+                                return a.availability - b.availability;
+                            }       
+                        } else if (this.sortOrder === 'desc') {
+                            if (this.sortCriteria === "subject") { 
+                                return b.subject.localeCompare(a.subject);
+                            } else if (this.sortCriteria === "location") {
+                                return b.location.localeCompare(a.location);
+                            } else if (this.sortCriteria === "price") {
+                                return b.price - a.price;
+                            } else if (this.sortCriteria === "availability") {
+                                return b.availability - a.availability;
+                            } 
+                        }
+                    });
+                },
                 groupedCartItems() {
                     const grouped = {};
 

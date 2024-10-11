@@ -108,7 +108,7 @@
                 <p>Zip: {{order.zip}}</p>
                 <p>State: {{order.state}}</p>
 
-                <button v-on:click="submitForm">Place Order</button>  
+                <button>Place Order</button>  
             </div>
         </div>
     </div>
@@ -136,7 +136,7 @@
                     this.cart.push(lesson.id);
                 },
                 showCheckout() {
-                    this.showProduct = this.showProduct ? false : true;
+                    this.showProduct = !this.showProduct;
                 },
                 cartItemCount(id) {
                     let count = 0;

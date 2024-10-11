@@ -16,7 +16,8 @@
         <header>
             <div class="header-container">
                 <h1>{{ sitename }}</h1>
-                <button v-on:click='showCheckout'> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+                <button disabled='disabled' v-if="cart.length == 0">{{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+                <button v-on:click='showCheckout' v-else> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
             </div>
         </header>
 
@@ -133,6 +134,7 @@
                 },
             methods: {
                 addToCart(lesson) {
+                    lesson.availability--;
                     this.cart.push(lesson.id);
                 },
                 showCheckout() {
@@ -147,9 +149,8 @@
                     }
                     return count;
                 },
-                
                 canAddToCart(lesson) {
-                    return lesson.availability > this.cartItemCount(lesson.id);
+                    return lesson.availability > 0;
                 }
             },
             computed: {

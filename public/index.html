@@ -67,7 +67,7 @@
         </div>
 
         <div v-else>
-            
+
             <!-- Cart container -->
             <div class="shoppingContainer">
                 <h2>Cart</h2>
@@ -122,7 +122,8 @@
                 <p>Address: {{order.address}}</p>
                 <p>City: {{order.city}}</p>
                 <p>Zip: {{order.zip}}</p>
-                <button>Place Order</button>
+                <button v-on:click="placeOrder()" v-if="isOrderValid()">Place Order</button>
+                <button disabled='disabled' v-else>Place Order</button>
             </div>
         </div>
     </div>
@@ -172,6 +173,20 @@
                 },
                 canAddToCart(lesson) {
                     return lesson.availability > 0;
+                },
+                isOrderValid() {
+                    const nameRegex = /^[a-zA-Z]+$/; 
+                    const phoneRegex = /^\d+$/;
+
+                    return this.order.firstName.trim() !== '' &&
+                        this.order.lastName.trim() !== '' &&
+                        this.order.phone.trim() !== '' &&
+                        nameRegex.test(this.order.firstName.trim()) &&
+                        nameRegex.test(this.order.lastName.trim()) &&
+                        phoneRegex.test(this.order.phone.trim());
+                },
+                placeOrder() {
+                    alert('Order placed!');
                 }
             },
             computed: {

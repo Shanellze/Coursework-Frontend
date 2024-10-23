@@ -124,3 +124,9 @@ img {
 .orderContainer button:hover {
     background-color: #3b5e63;
 }
+
+.orderContainer button:disabled {
+    background-color: #969696;
+    color: #ffffff;
+    cursor: not-allowed; 
+}

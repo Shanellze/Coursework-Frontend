@@ -2,6 +2,12 @@
     display: flex;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Header container */
 .headerContainer {
     display: flex;
     justify-content: space-between;
@@ -11,12 +17,14 @@
     color: white;
 }
 
+/* Sort container */
 .sortContainer {
     width: 10%;
     padding: 10px;
     border-right: 1px solid #ccc;
 }
 
+/* lesson container */
 .lessonContainer {
     width: 90%;
     display: flex;
@@ -31,6 +39,7 @@
     text-align: center;
 }
 
+/* Shopping container */
 .shoppingContainer{
     margin: 20px;
 }
@@ -56,6 +65,7 @@
     font-size: 20px;
 }
 
+/* Customer input container */
 .customerContainer {
     margin: 20px;
 }
@@ -93,6 +103,7 @@
 }
 
 
+/* Order information container */
 .orderContainer {
     margin: 20px;
 }
@@ -112,10 +123,4 @@
 
 .orderContainer button:hover {
     background-color: #3b5e63;
-}
-
-
-img {
-    max-width: 100%;
-    height: auto;
 }

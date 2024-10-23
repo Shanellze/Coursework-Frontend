@@ -14,10 +14,12 @@
     <div id="App">
 
         <header>
-            <div class="header-container">
+            <div class="headerContainer">
                 <h1>{{ sitename }}</h1>
-                <button disabled='disabled' v-if="cart.length == 0 && showProduct">{{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
-                <button v-on:click='showCheckout' v-else> {{ cart.length }} <span class="fa-solid fa-cart-shopping"></span> Checkout</button>
+                <button disabled='disabled' v-if="cart.length == 0 && showProduct">{{ cart.length }} <span
+                        class="fa-solid fa-cart-shopping"></span> Checkout</button>
+                <button v-on:click='showCheckout' v-else> {{ cart.length }} <span
+                        class="fa-solid fa-cart-shopping"></span> Checkout</button>
             </div>
         </header>
 
@@ -39,8 +41,8 @@
                     <div>
                         <label><input type="radio" v-model="sortCriteria" value="availability">Availability</label>
                     </div>
-                
-                    <br/>
+
+                    <br />
                     <div>
                         <label><input type="radio" v-model="sortOrder" value="asc">Ascending</label>
                     </div>
@@ -48,8 +50,8 @@
                         <label><input type="radio" v-model="sortOrder" value="desc">Descending</label>
                     </div>
                 </div>
-                
-                <!-- Lesson container -->    
+
+                <!-- Lesson container -->
                 <div class="lessonContainer">
                     <div v-for="lesson in sortedLessons" class="lessonItem">
                         <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="lesson.image">
@@ -65,31 +67,51 @@
         </div>
 
         <div v-else>
-            <!-- the code for the checkout page -->
+            
             <!-- Cart container -->
-            <h2>Cart</h2>
-            <div class="cartItemContainer">
-                <div v-for="item in groupedCartItems" :key="item.lesson.id" class="cartItem">
-                    <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="item.lesson.image">
-                    <p>Subject: <span v-text="item.lesson.subject"></span></p>
-                    <p>Location: <span v-text="item.lesson.location"></span></p>
-                    <p>Price: £<span v-text="item.lesson.price"></span></p>
-                    <p>Quantity: <span v-text="item.count"></span></p>
-                    <button v-on:click="removeFromCart(item.lesson)">Remove</button>
+            <div class="shoppingContainer">
+                <h2>Cart</h2>
+                <div class="cartItemContainer">
+                    <div v-for="item in groupedCartItems" :key="item.lesson.id" class="cartItem">
+                        <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="item.lesson.image">
+                        <p>Subject: <span v-text="item.lesson.subject"></span></p>
+                        <p>Location: <span v-text="item.lesson.location"></span></p>
+                        <p>Price: £<span v-text="item.lesson.price"></span></p>
+                        <p>Quantity: <span v-text="item.count"></span></p>
+                        <button v-on:click="removeFromCart(item.lesson)">Remove</button>
+                    </div>
                 </div>
+                <p id="total">Total: £<span v-text="total"></span></p>
             </div>
-            <p>Total: £<span v-text="total"></span></p>
 
             <!-- Customer container -->
             <div class="customerContainer">
                 <h2>Enter your information</h2>
-                <p>First Name: <input v-model.trim="order.firstName"></p>
-                <p>Last Name: <input v-model.trim="order.lastName"/></p>
-                <p>Phone: <input v-model.trim="order.phone"/></p>
-                <p>Address: <input v-model.trim="order.address"/></p>
-                <p>City: <input v-model.trim="order.city"/></p>
-                <p>Zip/Postal Code: <input v-model="order.zip"/></p>
+
+                <h3>Full name</h3>
+                <!-- Name Fields container -->
+                <div class="fields">
+                    <p><input v-model.trim="order.firstName" placeholder="First Name" /><label>First Name</label></p>
+                    <p><input v-model.trim="order.lastName" placeholder="Last Name" /><label>Last Name</label></p>
+                </div>
+
+                <!-- Phone -->
+                <h3>Phone</h3>
+                <div class="phoneField">
+                    <p><input v-model.trim="order.phone" placeholder="Phone" /><label>Phone</label></p>
+                </div>
+
+                <!-- Address, City, and Postal Code -->
+                <h3>Address</h3>
+                <p><input v-model.trim="order.address" placeholder="Address" /><label>Address</label></p>
+
+                <!-- City and Zip/Postal Code container -->
+                <div class="fields">
+                    <p><input v-model.trim="order.city" placeholder="City" /><label>City</label></p>
+                    <p><input v-model="order.zip" placeholder="Zip/Postal Code" /><label>Zip/Postal Code</label></p>
+                </div>
             </div>
+
 
             <!-- Order container -->
             <div class="orderContainer">
@@ -100,7 +122,7 @@
                 <p>Address: {{order.address}}</p>
                 <p>City: {{order.city}}</p>
                 <p>Zip: {{order.zip}}</p>
-                <button>Place Order</button>  
+                <button>Place Order</button>
             </div>
         </div>
     </div>
@@ -108,21 +130,22 @@
     <script>
         let app = new Vue({
             el: '#App',
-            data: { sitename:'Lessons store', 
-                    showProduct: true,
-                    order:{
-                        firstName: '',
-                        lastName: '',
-                        phone:'',
-                        address: '',
-                        city: '',
-                        zip: ''
-                    },
-                    lessons:lessons, 
-                    cart: [],
-                    sortCriteria: 'subject', // Set default sort criteria to subject
-                    sortOrder: 'asc'         // Set default sort order to ascending
+            data: {
+                sitename: 'Lessons store',
+                showProduct: true,
+                order: {
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    address: '',
+                    city: '',
+                    zip: ''
                 },
+                lessons: lessons,
+                cart: [],
+                sortCriteria: 'subject', // Set default sort criteria to subject
+                sortOrder: 'asc'         // Set default sort order to ascending
+            },
             methods: {
                 addToCart(lesson) {
                     lesson.availability--;
@@ -140,7 +163,7 @@
                 },
                 cartItemCount(id) {
                     let count = 0;
-                    for(let i = 0; i < this.cart.length; i++) {
+                    for (let i = 0; i < this.cart.length; i++) {
                         if (this.cart[i] === id) {
                             count++;
                         }
@@ -155,7 +178,7 @@
                 sortedLessons() {
                     return this.lessons.slice().sort((a, b) => {
                         if (this.sortOrder === 'asc') {
-                            if (this.sortCriteria === "subject") { 
+                            if (this.sortCriteria === "subject") {
                                 return a.subject.localeCompare(b.subject);
                             } else if (this.sortCriteria === "location") {
                                 return a.location.localeCompare(b.location);
@@ -163,9 +186,9 @@
                                 return a.price - b.price;
                             } else if (this.sortCriteria === "availability") {
                                 return a.availability - b.availability;
-                            }       
+                            }
                         } else if (this.sortOrder === 'desc') {
-                            if (this.sortCriteria === "subject") { 
+                            if (this.sortCriteria === "subject") {
                                 return b.subject.localeCompare(a.subject);
                             } else if (this.sortCriteria === "location") {
                                 return b.location.localeCompare(a.location);
@@ -173,7 +196,7 @@
                                 return b.price - a.price;
                             } else if (this.sortCriteria === "availability") {
                                 return b.availability - a.availability;
-                            } 
+                            }
                         }
                     });
                 },
@@ -200,7 +223,7 @@
                     // Convert the grouped object to an array
                     return Object.values(grouped);
                 },
-                total: function() {
+                total: function () {
                     let totalAmount = 0;
                     for (let i = 0; i < this.cart.length; i++) {
                         // Find the lesson that matches the ID in the cart

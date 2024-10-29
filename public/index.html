@@ -178,12 +178,12 @@
                     const nameRegex = /^[a-zA-Z]+$/; 
                     const phoneRegex = /^\d+$/;
 
-                    return this.order.firstName.trim() !== '' &&
+                    return (this.order.firstName.trim() !== '' &&
                         this.order.lastName.trim() !== '' &&
                         this.order.phone.trim() !== '' &&
                         nameRegex.test(this.order.firstName.trim()) &&
                         nameRegex.test(this.order.lastName.trim()) &&
-                        phoneRegex.test(this.order.phone.trim());
+                        phoneRegex.test(this.order.phone.trim())) && (this.cart.length !=0);
                 },
                 placeOrder() {
                     alert('Order placed!');

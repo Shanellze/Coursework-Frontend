@@ -142,11 +142,21 @@
                     city: '',
                     zip: ''
                 },
-                lessons: lessons,
+                lessons: [],
                 cart: [],
                 sortCriteria: 'subject', // Set default sort criteria to subject
                 sortOrder: 'asc'         // Set default sort order to ascending
             },
+            created: function() {
+                fetch("http://localhost:3000/api/lessons")
+                .then(response => response.json())
+                .then(data => {
+                    this.lessons = data;  // Store fetched data in the products array
+                })
+                .catch(error => {
+                    console.error("Error fetching lessons:", error);
+                });
+        },
             methods: {
                 addToCart(lesson) {
                     lesson.availability--;

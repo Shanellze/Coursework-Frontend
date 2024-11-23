@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-    <script src="./js/lessons.js"></script>
 </head>
 
 <body>
@@ -140,7 +139,8 @@
                     phone: '',
                     address: '',
                     city: '',
-                    zip: ''
+                    zip: '',
+                    lessonIDs: []
                 },
                 lessons: [],
                 cart: [],
@@ -148,15 +148,15 @@
                 sortOrder: 'asc'         // Set default sort order to ascending
             },
             created: function() {
-                fetch("http://localhost:3000/api/lessons")
+                fetch("http://localhost:3000/collections/products")
                 .then(response => response.json())
                 .then(data => {
-                    this.lessons = data;  // Store fetched data in the products array
+                    this.lessons = data;
                 })
                 .catch(error => {
                     console.error("Error fetching lessons:", error);
                 });
-        },
+            },
             methods: {
                 addToCart(lesson) {
                     lesson.availability--;
@@ -196,7 +196,58 @@
                         phoneRegex.test(this.order.phone.trim())) && (this.cart.length !=0);
                 },
                 placeOrder() {
-                    alert('Order placed!');
+                    this.order.lessonIDs = this.cart;
+                    fetch("http://localhost:3000/collections/orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(this.order)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('Order placed!');
+                        
+                        // Update availability for each lesson in the cart
+                        this.cart.forEach(id => {
+                            const lesson = this.lessons.find(lesson => lesson.id === id);
+                            if (lesson) {
+                                console.log(lesson._id);
+                                this.updateLessonAvailability(lesson._id, lesson.availability);
+                            }
+                        });
+
+                        // Clear the cart and reset the order form
+                        this.cart = [];
+                        this.order = {
+                            firstName: '',
+                            lastName: '',
+                            phone: '',
+                            address: '',
+                            city: '',
+                            zip: '',
+                            lessonIDs: [],
+                        };
+                    })
+                    .catch(error => {
+                        console.error("Error placing order:", error);
+                    });
+                },
+                updateLessonAvailability(lessonId, newAvailability) {
+                    fetch(`http://localhost:3000/collections/lessons/${lessonId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ availability: newAvailability })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Lesson updated:', data);
+                    })
+                    .catch(error => {
+                        console.error("Error updating lesson:", error);
+                    });
                 }
             },
             computed: {

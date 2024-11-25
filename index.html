@@ -212,7 +212,6 @@
                         this.cart.forEach(id => {
                             const lesson = this.lessons.find(lesson => lesson.id === id);
                             if (lesson) {
-                                console.log(lesson._id);
                                 this.updateLessonAvailability(lesson._id, lesson.availability);
                             }
                         });
@@ -234,7 +233,7 @@
                     });
                 },
                 updateLessonAvailability(lessonId, newAvailability) {
-                    fetch(`http://localhost:3000/collections/lessons/${lessonId}`, {
+                    fetch(`http://localhost:3000/collections/products/${lessonId}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json"

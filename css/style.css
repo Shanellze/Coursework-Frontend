@@ -47,6 +47,23 @@ img {
     color: white;
 }
 
+/* Style the search container */
+.searchContainer input {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+.searchContainer input:focus {
+    border-color: #335156;
+    outline: none;
+}
+
+.searchContainer input::placeholder {
+    color: #aaa;
+}
+
 /* Sort container */
 .sortContainer {
     width: 15%;

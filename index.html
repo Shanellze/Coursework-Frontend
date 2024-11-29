@@ -16,7 +16,7 @@
             <div class="headerContainer">
                 <h1>{{ sitename }}</h1>
 
-                <div class="searchContainer">
+                <div class="searchContainer" v-if='showProduct'>
                     <input type="text" v-model="searchQuery" placeholder="Search..." @input="searchLessons" />
                 </div>
 
@@ -154,7 +154,7 @@
                 searchQuery: ''
             },
             created: function() {
-                fetch("http://localhost:3000/collections/products")
+                fetch(`https://lesson-store.onrender.com/collections/products`)
                 .then(response => response.json())
                 .then(data => {
                     this.lessons = data;
@@ -197,7 +197,8 @@
                 },
                 isOrderValid() {
                     const nameRegex = /^[a-zA-Z]+$/; 
-                    const phoneRegex = /^\d+$/;
+                    const phoneRegex = /^\d{11}$/;
+
 
                     return (this.order.firstName.trim() !== '' &&
                         this.order.lastName.trim() !== '' &&
@@ -208,7 +209,7 @@
                 },
                 placeOrder() {
                     this.order.lessonIDs = this.cart;
-                    fetch("http://localhost:3000/collections/orders", {
+                    fetch(`https://lesson-store.onrender.com/collections/orders`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -244,7 +245,7 @@
                     });
                 },
                 updateLessonAvailability(lessonId, newAvailability) {
-                    fetch(`http://localhost:3000/collections/products/${lessonId}`, {
+                    fetch(`https://lesson-store.onrender.com/collections/products/${lessonId}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json"
@@ -260,7 +261,7 @@
                     });
                 },
                 searchLessons() {
-                    fetch(`http://localhost:3000/search?query=${this.searchQuery}`)
+                    fetch(`https://lesson-store.onrender.com/search?query=${this.searchQuery}`)
                         .then(response => response.json())
                         .then(data => {
                             this.lessons = data;

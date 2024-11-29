@@ -1,10 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+button {
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #497278;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: #3b5e63;
+}
+
+button:disabled {
+    background-color: #969696;
+    cursor: not-allowed;
+}
+
 .container {
     display: flex;
+    padding: 20px;
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+    width: 100px; 
+    height: 100px; 
+    margin-top: 20px;
 }
 
 /* Header container */
@@ -19,24 +49,28 @@ img {
 
 /* Sort container */
 .sortContainer {
-    width: 10%;
+    width: 15%;
     padding: 10px;
-    border-right: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
 
 /* lesson container */
 .lessonContainer {
-    width: 90%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    width: 80%;
+    margin-left: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .lessonItem {
-    width: calc(33% - 20px);
-    margin: 10px;
-    box-sizing: border-box;
     text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 /* Shopping container */
@@ -68,6 +102,10 @@ img {
 /* Customer input container */
 .customerContainer {
     margin: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .fields {
@@ -106,27 +144,12 @@ img {
 /* Order information container */
 .orderContainer {
     margin: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .orderContainer button {
-    display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #497278;
-    color: white;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.orderContainer button:hover {
-    background-color: #3b5e63;
-}
-
-.orderContainer button:disabled {
-    background-color: #969696;
-    color: #ffffff;
-    cursor: not-allowed; 
 }

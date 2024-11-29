@@ -15,7 +15,7 @@
         <header>
             <div class="headerContainer">
                 <h1>{{ sitename }}</h1>
-                <button disabled='disabled' v-if="cart.length == 0 && showProduct">{{ cart.length }} <span
+                <button disabled='disabled' v-if="cart.length == 0">{{ cart.length }} <span
                         class="fa-solid fa-cart-shopping"></span> Checkout</button>
                 <button v-on:click='showCheckout' v-else> {{ cart.length }} <span
                         class="fa-solid fa-cart-shopping"></span> Checkout</button>
@@ -53,7 +53,7 @@
                 <!-- Lesson container -->
                 <div class="lessonContainer">
                     <div v-for="lesson in sortedLessons" class="lessonItem">
-                        <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="lesson.image">
+                        <img v-bind:src="lesson.image">
                         <h2 v-text="lesson.subject"></h2>
                         <p v-text="lesson.location"></p>
                         <p>Price: £<span v-text="lesson.price"></span></p>
@@ -72,7 +72,7 @@
                 <h2>Cart</h2>
                 <div class="cartItemContainer">
                     <div v-for="item in groupedCartItems" :key="item.lesson.id" class="cartItem">
-                        <img style="width: 100px; height: 100px; margin-top: 20px;" v-bind:src="item.lesson.image">
+                        <img v-bind:src="item.lesson.image">
                         <p>Subject: <span v-text="item.lesson.subject"></span></p>
                         <p>Location: <span v-text="item.lesson.location"></span></p>
                         <p>Price: £<span v-text="item.lesson.price"></span></p>
@@ -167,6 +167,11 @@
                     if (index !== -1) {
                         this.cart.splice(index, 1);
                         lesson.availability++;
+                    }
+
+                    // Check if the cart is empty
+                    if (this.cart.length === 0) {
+                        this.showProduct = true; // Switch to the product view
                     }
                 },
                 showCheckout() {

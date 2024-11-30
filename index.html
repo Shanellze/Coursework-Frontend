@@ -199,13 +199,20 @@
                     const nameRegex = /^[a-zA-Z]+$/; 
                     const phoneRegex = /^\d{11}$/;
 
+                    // Check if all required fields are filled
+                    const allFieldsFilled = this.order.firstName.trim() !== '' &&
+                            this.order.lastName.trim() !== '' &&
+                            this.order.phone.trim() !== '' &&
+                            this.order.address.trim() !== '' &&
+                            this.order.city.trim() !== '' &&
+                            this.order.zip.trim() !== '';
 
-                    return (this.order.firstName.trim() !== '' &&
-                        this.order.lastName.trim() !== '' &&
-                        this.order.phone.trim() !== '' &&
+
+                    return (allFieldsFilled &&
                         nameRegex.test(this.order.firstName.trim()) &&
                         nameRegex.test(this.order.lastName.trim()) &&
-                        phoneRegex.test(this.order.phone.trim())) && (this.cart.length !=0);
+                        phoneRegex.test(this.order.phone.trim())) && 
+                        (this.cart.length !=0);
                 },
                 placeOrder() {
                     this.order.lessonIDs = this.cart;
@@ -228,8 +235,10 @@
                             }
                         });
 
-                        // Clear the cart and reset the order form
+                        // Clear the cart 
                         this.cart = [];
+
+                        // Reset the order form
                         this.order = {
                             firstName: '',
                             lastName: '',
@@ -239,6 +248,9 @@
                             zip: '',
                             lessonIDs: [],
                         };
+
+                        // Return to the products page
+                        showProduct = true;
                     })
                     .catch(error => {
                         console.error("Error placing order:", error);
@@ -253,9 +265,7 @@
                         body: JSON.stringify({ availability: newAvailability })
                     })
                     .then(response => response.json())
-                    .then(data => {
-                        console.log('Lesson updated:', data);
-                    })
+                    .then(data => {})
                     .catch(error => {
                         console.error("Error updating lesson:", error);
                     });
